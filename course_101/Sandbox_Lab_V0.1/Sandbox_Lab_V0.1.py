@@ -1,0 +1,50 @@
+signature_database = {
+    "A1B2C3" : "trojan",
+    "D4E5F6" : "worm",
+    "G7H8I9" : "ransomware",
+    "J0K1L2" : "spyware",
+    "M3N4O5" : "adware",
+}
+
+def find_signature_by_hash(hash_value):
+    if len(hash_value) != 6:
+        return "Invalid hash length. Hash must be 6 characters long."
+    
+    elif hash_value in signature_database:
+        return signature_database[hash_value]
+    
+    else:
+        return "Signature not found in the database."
+
+
+def find_signature_by_threat(threat):
+    for hash_value in signature_database:
+        if signature_database[hash_value] == threat.lower():
+            return hash_value
+    return "Threat not found in the database."
+
+
+def add_signature(hash_value, threat):
+    if len(hash_value) != 6:
+        return "Invalid hash length. Hash must be 6 characters long."
+    
+    elif hash_value in signature_database:
+        return "Signature already exists in the database."
+    
+    else: 
+        signature_database[hash_value] = threat
+        return "Signature added successfully."
+
+
+#find_signature_by_hash
+print(find_signature_by_hash("A1B2C3")) #Valid hash
+print(find_signature_by_hash("A55GRT")) #Invalid hash 
+
+#find_signature_by_threat
+print(find_signature_by_threat("worm")) #Valid threat
+print(find_signature_by_threat("logic bomb")) #dosen't exist in the database
+
+#add_signature
+print(add_signature("P6Q7R8", "logic bomb")) #valid hash and threat
+print(add_signature("P6Q7R8", "logic bomb")) #duplicate hash
+print(add_signature("2ER45T633", "Test")) #invalid hash length
